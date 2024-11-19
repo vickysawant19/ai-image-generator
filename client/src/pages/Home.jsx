@@ -35,7 +35,6 @@ const Span = styled.div`
   font-size: 30px;
   font-weight: 800;
   color: ${({ theme }) => theme.secondary};
-
   @media (max-width: 600px) {
     font-size: 22px;
   }
@@ -49,7 +48,7 @@ const Wrapper = styled.div`
   justify-content: center;
 `;
 
-const CardWrapepr = styled.div`
+const CardWrapper = styled.div`
   display: grid;
   gap: 20px;
   @media (min-width: 1200px) {
@@ -63,18 +62,30 @@ const CardWrapepr = styled.div`
   }
 `;
 
+const Loading = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.text_secondary};
+  text-align: center;
+  margin-top: 20px;
+`;
+
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [filterPost, setFilterPost] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
 
   const fetchPost = async () => {
+    setLoading(true); // Start loading
     try {
       let { data } = await getPosts();
       setAllPosts(data);
       setFilterPost(data.reverse());
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching posts:", error);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
@@ -93,25 +104,29 @@ const Home = () => {
             -1
       )
     );
-  }, [search]);
+  }, [search, allPosts]);
 
   return (
     <Container>
       <Headline>
-        Explore the polpular post from Community!
+        Explore the popular posts from Community!
         <Span>Generated with AI</Span>
       </Headline>
       <Searchbar search={search} setSearch={setSearch} />
       <Wrapper>
-        <CardWrapepr>
-          {filterPost?.length > 0 ? (
-            filterPost
-              .reverse()
-              .map((item) => <ImageCard key={item._id} item={item} />)
-          ) : (
-            <>Image not found!</>
-          )}
-        </CardWrapepr>
+        {loading ? ( // Show loading indicator while fetching
+          <Loading>Loading posts...</Loading>
+        ) : (
+          <CardWrapper>
+            {filterPost?.length > 0 ? (
+              filterPost
+                .reverse()
+                .map((item) => <ImageCard key={item._id} item={item} />)
+            ) : (
+              <>Image not found!</>
+            )}
+          </CardWrapper>
+        )}
       </Wrapper>
     </Container>
   );
