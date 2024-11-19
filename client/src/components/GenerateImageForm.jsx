@@ -70,7 +70,6 @@ const GenerateImageForm = ({
         console.log(`Attempt ${attempt} to generate image`);
         let res = await getImage(post.prompt);
         setPost({ ...post, photo: res.data });
-        console.log("Image generated successfully");
         setGenerateImageLoading(false);
         return;
       } catch (error) {
