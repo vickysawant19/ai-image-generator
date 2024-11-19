@@ -70,8 +70,8 @@ const Home = () => {
 
   const fetchPost = async () => {
     let { data } = await getPosts();
-    setAllPosts(data?.data);
-    setFilterPost(data?.data.reverse());
+    setAllPosts(data);
+    setFilterPost(data.reverse());
   };
 
   useEffect(() => {

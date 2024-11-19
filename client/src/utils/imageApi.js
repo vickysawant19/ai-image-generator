@@ -22,7 +22,7 @@ export const savePost = async (post) => {
 
 export const getPosts = async () => {
   try {
-    let data = await axios.get(`${serverUrl()}post`);
+    let { data } = await axios.get(`${serverUrl()}post`);
     return data;
   } catch (error) {
     console.log(error);
