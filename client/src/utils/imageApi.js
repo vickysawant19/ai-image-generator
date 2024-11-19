@@ -21,7 +21,6 @@ export const savePost = async (post) => {
 };
 
 export const getPosts = async () => {
-  console.log(`${serverUrl()}/generate`);
   try {
     let data = await axios.get(`${serverUrl()}post`);
     return data;
