@@ -58,18 +58,37 @@ const GenerateImageForm = ({
   const navigate = useNavigate();
 
   const generateImageFn = async () => {
+    const MAX_RETRIES = 3;
+    const RETRY_DELAY = 10000; // 10 seconds in milliseconds
+
     setGenerateImageLoading(true);
     setIsError(false);
     setPost({ ...post, photo: "" });
-    try {
-      let res = await getImage(post.prompt);
-      setPost({ ...post, photo: res.data });
-    } catch (error) {
-      console.log(error);
-      setIsError(true);
-    } finally {
-      setGenerateImageLoading(false);
+
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        console.log(`Attempt ${attempt} to generate image`);
+        let res = await getImage(post.prompt);
+        setPost({ ...post, photo: res.data });
+        console.log("Image generated successfully");
+        return; // Exit the function on success
+      } catch (error) {
+        console.log(`Error on attempt ${attempt}:`, error);
+
+        // If we've reached the maximum attempts, set error state
+        if (attempt === MAX_RETRIES) {
+          setIsError(true);
+          console.log("Max retries reached. Failed to generate image.");
+          break;
+        }
+
+        // Wait for 10 seconds before the next attempt
+        console.log(`Retrying in ${RETRY_DELAY / 1000} seconds...`);
+        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
+      }
     }
+
+    setGenerateImageLoading(false);
   };
 
   const createPostFn = async () => {
