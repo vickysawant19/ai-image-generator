@@ -71,18 +71,13 @@ const GenerateImageForm = ({
         let res = await getImage(post.prompt);
         setPost({ ...post, photo: res.data });
         console.log("Image generated successfully");
-        return; // Exit the function on success
       } catch (error) {
         console.log(`Error on attempt ${attempt}:`, error);
-
-        // If we've reached the maximum attempts, set error state
         if (attempt === MAX_RETRIES) {
           setIsError(true);
           console.log("Max retries reached. Failed to generate image.");
           break;
         }
-
-        // Wait for 10 seconds before the next attempt
         console.log(`Retrying in ${RETRY_DELAY / 1000} seconds...`);
         await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY));
       }
