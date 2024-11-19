@@ -54,8 +54,10 @@ const GenerateImageForm = ({
   generateImageLoading,
 }) => {
   const navigate = useNavigate();
+
   const generateImageFn = async () => {
     setGenerateImageLoading(true);
+    setPost({ ...post, photo: "" });
     try {
       let data = await getImage(post.prompt);
       setPost({ ...post, photo: data });
