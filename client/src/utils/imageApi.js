@@ -6,25 +6,54 @@ export const getImage = async (prompt) => {
     const response = await axios.post(`${serverUrl()}generate`, { prompt });
     return response.data.data;
   } catch (error) {
-    console.error("Error fetching the image:", error);
-    throw error;
+    if (error.response) {
+      console.error("Error Response:", error.response.data);
+      console.error("Status Code:", error.response.status);
+      console.error("Headers:", error.response.headers);
+    } else if (error.request) {
+      console.error("No Response Received:", error.request);
+    } else {
+      console.error("Error Message:", error.message);
+    }
+    throw new Error("Failed to fetch the image. Please try again later.");
   }
 };
 
 export const savePost = async (post) => {
   try {
-    let response = await axios.post(`${serverUrl()}post`, post);
-    return response;
+    const response = await axios.post(`${serverUrl()}post`, post);
+    return response.data; // Return the relevant response data
   } catch (error) {
-    console.log(error);
+    // Handle specific error cases
+    if (error.response) {
+      console.error("Error Response:", error.response.data);
+      console.error("Status Code:", error.response.status);
+      console.error("Headers:", error.response.headers);
+    } else if (error.request) {
+      console.error("No Response Received:", error.request);
+    } else {
+      console.error("Error Message:", error.message);
+    }
+    // Throw a custom error with context for the caller
+    throw new Error("Failed to save the post. Please try again later.");
   }
 };
 
 export const getPosts = async () => {
   try {
-    let { data } = await axios.get(`${serverUrl()}post`);
-    return data;
+    const response = await axios.get(`${serverUrl()}post`);
+    return response.data;
   } catch (error) {
-    console.log(error);
+    // Log specific error details
+    if (error.response) {
+      console.error("Error Response:", error.response.data);
+      console.error("Status Code:", error.response.status);
+      console.error("Headers:", error.response.headers);
+    } else if (error.request) {
+      console.error("No Response Received:", error.request);
+    } else {
+      console.error("Error Message:", error.message);
+    }
+    throw new Error("Failed to fetch posts. Please try again later.");
   }
 };

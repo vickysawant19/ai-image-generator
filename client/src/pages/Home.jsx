@@ -69,9 +69,13 @@ const Home = () => {
   const [search, setSearch] = useState("");
 
   const fetchPost = async () => {
-    let { data } = await getPosts();
-    setAllPosts(data);
-    setFilterPost(data.reverse());
+    try {
+      let { data } = await getPosts();
+      setAllPosts(data);
+      setFilterPost(data.reverse());
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
