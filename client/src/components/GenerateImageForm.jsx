@@ -69,10 +69,8 @@ const GenerateImageForm = ({
   const createPostFn = async () => {
     try {
       setCreatePostLoading(true);
-      let { data } = await savePost(post);
-      if (data.success) {
-        navigate("/");
-      }
+      let res = await savePost(post);
+      navigate("/");
     } catch (error) {
       console.log(error);
     } finally {
