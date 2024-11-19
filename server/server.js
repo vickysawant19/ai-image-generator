@@ -8,7 +8,7 @@ import createImageRouter from "./routes/createImageRoutes.js";
 config();
 
 const app = express();
-const PORT = process.env.PORT || PORT;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 app.use(express.json({ limit: "50mb" }));
@@ -30,6 +30,9 @@ app.use(
     },
   })
 );
+
+// Handle preflight requests
+app.options("*", cors());
 
 //Deafult get
 app.get("/", (req, res) => {
