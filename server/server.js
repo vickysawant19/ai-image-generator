@@ -14,7 +14,22 @@ app.use(express.static("public"));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://ai-image-generator-client-omega.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
 
 //Deafult get
 app.get("/", (req, res) => {
