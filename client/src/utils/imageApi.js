@@ -3,7 +3,11 @@ import { serverUrl } from "./serverUrl";
 
 export const getImage = async (prompt) => {
   try {
-    const response = await axios.post(`${serverUrl()}generate`, { prompt });
+    const response = await axios.post(
+      `${serverUrl()}generate`,
+      { prompt },
+      { timeout: 60000 }
+    );
     return response.data;
   } catch (error) {
     if (error.response) {

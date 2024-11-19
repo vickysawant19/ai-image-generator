@@ -52,30 +52,35 @@ const GenerateImageForm = ({
   setCreatePostLoading,
   createPostLoading,
   generateImageLoading,
+  isError,
+  setIsError,
 }) => {
   const navigate = useNavigate();
 
   const generateImageFn = async () => {
     setGenerateImageLoading(true);
+    setIsError(false);
     setPost({ ...post, photo: "" });
     try {
       let res = await getImage(post.prompt);
-      console.log(res.message);
       setPost({ ...post, photo: res.data });
     } catch (error) {
       console.log(error);
+      setIsError(true);
     } finally {
       setGenerateImageLoading(false);
     }
   };
 
   const createPostFn = async () => {
+    setIsError(false);
     try {
       setCreatePostLoading(true);
       let res = await savePost(post);
       navigate("/");
     } catch (error) {
       console.log(error);
+      setIsError(true);
     } finally {
       setCreatePostLoading(false);
     }

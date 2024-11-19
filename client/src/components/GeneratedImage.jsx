@@ -20,7 +20,7 @@ const Image = styled.img`
   border-radius: 20px;
   background: ${({ theme }) => theme.black};
 `;
-const GeneratedImage = ({ src, loading }) => {
+const GeneratedImage = ({ src, loading, setIsError, isError }) => {
   return (
     <Container>
       {loading ? (
@@ -32,6 +32,8 @@ const GeneratedImage = ({ src, loading }) => {
         </>
       ) : src ? (
         <Image src={src} />
+      ) : isError ? (
+        <>Error generating Image.Please Try Again...</>
       ) : (
         <>Write a Prompt to Genetrate Image</>
       )}

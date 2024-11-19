@@ -36,6 +36,7 @@ const Wrapper = styled.div`
 const CreatePost = () => {
   const [generateImageLoading, setGenerateImageLoading] = useState(false);
   const [createPostLoading, setCreatePostLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [post, setPost] = useState({
     name: "",
     prompt: "",
@@ -52,8 +53,15 @@ const CreatePost = () => {
           setCreatePostLoading={setCreatePostLoading}
           createPostLoading={createPostLoading}
           generateImageLoading={generateImageLoading}
+          isError={isError}
+          setIsError={setIsError}
         />
-        <GeneratedImage src={post?.photo} loading={generateImageLoading} />
+        <GeneratedImage
+          src={post?.photo}
+          loading={generateImageLoading}
+          isError={isError}
+          setIsError={setIsError}
+        />
       </Wrapper>
     </Container>
   );
