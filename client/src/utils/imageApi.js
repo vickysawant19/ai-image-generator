@@ -4,7 +4,7 @@ import { serverUrl } from "./serverUrl";
 export const getImage = async (prompt) => {
   try {
     const response = await axios.post(`${serverUrl()}generate`, { prompt });
-    return response.data.data;
+    return response.data;
   } catch (error) {
     if (error.response) {
       console.error("Error Response:", error.response.data);

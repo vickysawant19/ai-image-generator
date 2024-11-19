@@ -59,8 +59,9 @@ const GenerateImageForm = ({
     setGenerateImageLoading(true);
     setPost({ ...post, photo: "" });
     try {
-      let data = await getImage(post.prompt);
-      setPost({ ...post, photo: data });
+      let res = await getImage(post.prompt);
+      console.log(res.message);
+      setPost({ ...post, photo: res.data });
     } catch (error) {
       console.log(error);
     } finally {
