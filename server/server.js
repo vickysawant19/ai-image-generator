@@ -30,7 +30,7 @@ app.options("*", cors());
 
 //Deafult get
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Hello from server" });
+  res.status(200).json({ message: "Hello from server v1.1" });
 });
 
 //API routes
