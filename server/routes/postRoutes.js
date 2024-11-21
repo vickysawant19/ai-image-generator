@@ -7,6 +7,6 @@ import {
 
 const router = express.Router();
 
-router.get("/", getAllPost).post("/", createPost).delete("/", deletePost);
+router.get("/", getAllPost).post("/", createPost).delete("/:id", deletePost);
 
 export default router;

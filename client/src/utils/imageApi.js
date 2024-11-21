@@ -63,11 +63,16 @@ export const getPosts = async () => {
 };
 
 export const deletePost = async (id) => {
+  console.log("Deleting post with ID:", id);
+
   try {
-    const response = await axios.delete(`${serverUrl()}post`, { _id: id });
+    const response = await axios.delete(`${serverUrl()}post/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error Message:", error.message);
-    throw new Error("Failed to delete post. Please try again later.");
+    console.error("Error while deleting post:", error.message);
+    throw new Error(
+      error.response?.data?.message ||
+        "Failed to delete post. Please try again later."
+    );
   }
 };

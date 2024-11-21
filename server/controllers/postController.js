@@ -46,13 +46,13 @@ const createPost = async (req, res, next) => {
 
 const deletePost = async (req, res, next) => {
   try {
-    const { _id } = req.body;
-    if (!_id) {
+    const { id } = req.params;
+    if (!id) {
       return res
         .status(400)
         .json({ success: false, message: "Post ID is required" });
     }
-    const result = await Post.findByIdAndDelete(_id);
+    const result = await Post.findByIdAndDelete(id);
     if (!result) {
       return res
         .status(404)
