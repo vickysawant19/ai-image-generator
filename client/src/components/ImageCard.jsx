@@ -1,4 +1,4 @@
-import { DownloadRounded } from "@mui/icons-material";
+import { DeleteForever, DownloadRounded } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import React from "react";
 
@@ -6,6 +6,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import styled from "styled-components";
 
 import { saveAs } from "file-saver";
+import { deletePost } from "../utils/imageApi";
 
 const Card = styled.div`
   min-width: 100px;
@@ -62,6 +63,26 @@ const Author = styled.div`
 `;
 
 const ImageCard = ({ item }) => {
+  const handleDelete = async (id) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+
+    if (!isConfirmed) {
+      return;
+    }
+    try {
+      const response = await deletePost(id);
+      if (response?.success) {
+        alert("Post deleted successfully!");
+      } else {
+        alert(response?.message || "Failed to delete the post.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while trying to delete the post.");
+    }
+  };
   return (
     <Card>
       <LazyLoadImage
@@ -82,9 +103,15 @@ const ImageCard = ({ item }) => {
             <Avatar style={{ height: "32px", width: "32px" }} />
             {item?.name}
           </Author>
-          <DownloadRounded
-            onClick={() => saveAs(item?.photo, "download.jpg")}
-          />
+          <div>
+            <DownloadRounded
+              onClick={() => saveAs(item?.photo, "download.jpg")}
+            />
+            <DeleteForever
+              onClick={() => handleDelete(item?._id)}
+              style={{ marginLeft: "20px" }}
+            />
+          </div>
         </div>
       </HoverOverlay>
     </Card>

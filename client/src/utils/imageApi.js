@@ -61,3 +61,13 @@ export const getPosts = async () => {
     throw new Error("Failed to fetch posts. Please try again later.");
   }
 };
+
+export const deletePost = async (id) => {
+  try {
+    const response = await axios.delete(`${serverUrl()}post`, { _id: id });
+    return response.data;
+  } catch (error) {
+    console.error("Error Message:", error.message);
+    throw new Error("Failed to delete post. Please try again later.");
+  }
+};

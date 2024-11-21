@@ -44,4 +44,29 @@ const createPost = async (req, res, next) => {
   }
 };
 
-export { getAllPost, createPost };
+const deletePost = async (req, res, next) => {
+  try {
+    const { _id } = req.body;
+    if (!_id) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Post ID is required" });
+    }
+    const result = await Post.findByIdAndDelete(_id);
+    if (!result) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Post not found" });
+    }
+    return res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    next(
+      createError(
+        error.status || 500,
+        error.message || "An unexpected error occurred"
+      )
+    );
+  }
+};
+
+export { getAllPost, createPost, deletePost };
